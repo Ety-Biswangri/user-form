@@ -11,7 +11,7 @@ const UserForm = () => {
 
     // load all users
     useEffect(() => {
-        fetch(`http://localhost:5000/userinfo`)
+        fetch(`https://secure-shore-18409.herokuapp.com/userinfo`)
             .then(res => res.json())
             .then(data => setUsers(data));
     }, [isReload]);
@@ -39,7 +39,7 @@ const UserForm = () => {
     const handleForm = (event) => {
         event.preventDefault();
 
-        const url = `http://localhost:5000/userinfo`;
+        const url = `https://secure-shore-18409.herokuapp.com/userinfo`;
 
         if (username === '') {
             return;
