@@ -48,7 +48,6 @@ const UserForm = () => {
 
         const userInfo = {
             username: username,
-            address: event.target.address.value
         }
 
         fetch(url, {
@@ -68,9 +67,18 @@ const UserForm = () => {
         // window.location.reload(false);
     };
 
+    const refreshPage = () => {
+        window.location.reload(false);
+    }
+
     return (
         <div>
+            <div className='container mt-5'>
+                <button onClick={refreshPage} className='btn btn-primary'>Refresh</button>
+            </div>
+
             <h3 className='text-center m-5'>Please Fill Up The Form</h3>
+
             <div className='w-50 mx-auto m-5'>
                 <Form onSubmit={handleForm}>
                     <Form.Group className="mb-3" controlId="formBasicUsername">
@@ -79,12 +87,7 @@ const UserForm = () => {
                     </Form.Group>
                     <p className='text-danger'>{errormessage}</p>
 
-                    <Form.Group className="mb-3" controlId="formBasicAddress">
-                        <Form.Label>Address (optional):</Form.Label>
-                        <Form.Control type="text" placeholder="Enter address" name='address' autoComplete='off' />
-                    </Form.Group>
-
-                    <Button variant="primary" type="submit" disabled={isDisabled}>
+                    <Button variant="success" type="submit" disabled={isDisabled}>
                         Add
                     </Button>
                 </Form>
