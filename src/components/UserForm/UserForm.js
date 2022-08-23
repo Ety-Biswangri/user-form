@@ -1,32 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
 const UserForm = () => {
 
     const [errormessage, setErrormessage] = useState('');
+    let [username, setUsername] = useState('');
+    const [users, setUsers] = useState([]);
+    const [isDisabled, setIsDisabled] = useState(false);
+    const [isReload, setIsReload] = useState(false);
 
-    const handleUsername = () => {
+    // load all users
+    useEffect(() => {
+        fetch(`http://localhost:5000/userinfo`)
+            .then(res => res.json())
+            .then(data => setUsers(data));
+    }, [isReload]);
 
+    // user name field data handling
+    const handleUsername = (event) => {
+        let name = event.target.value;
+
+        for (const user of users) {
+            if (user.username === name) {
+                setIsDisabled(true);
+                setErrormessage('This username has already used');
+                return;
+            }
+            else {
+                setIsDisabled(false);
+                setErrormessage('');
+                setUsername(name);
+                setIsReload(!isReload);
+            }
+        }
     }
 
-    const handleForm = (event,) => {
+    // form handling
+    const handleForm = (event) => {
         event.preventDefault();
 
         const url = `http://localhost:5000/userinfo`;
 
-        let username = event.target.username.value;
-
-        /* if (username === '') {
-            setErrormessage('Please enter your username');
+        if (username === '') {
             return;
-        } */
-
-        // setErrormessage('');
+        }
 
         const userInfo = {
             username: username
         }
-        console.log(userInfo);
 
         fetch(url, {
             method: 'POST',
@@ -37,11 +58,11 @@ const UserForm = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                console.log(data);
             })
 
         event.target.reset();
-
+        // window.location.reload(false);
     };
 
     return (
@@ -53,10 +74,9 @@ const UserForm = () => {
                         <Form.Control type="text" placeholder="Enter username" name='username' onChange={handleUsername} required autoComplete='off' />
                     </Form.Group>
 
-
                     <p className='text-danger'>{errormessage}</p>
 
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" disabled={isDisabled}>
                         Add
                     </Button>
                 </Form>
