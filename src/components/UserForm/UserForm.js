@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 const UserForm = () => {
 
@@ -46,7 +47,8 @@ const UserForm = () => {
         }
 
         const userInfo = {
-            username: username
+            username: username,
+            address: event.target.address.value
         }
 
         fetch(url, {
@@ -59,6 +61,7 @@ const UserForm = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                toast('Username is added');
             })
 
         event.target.reset();
@@ -67,14 +70,19 @@ const UserForm = () => {
 
     return (
         <div>
+            <h3 className='text-center m-5'>Please Fill Up The Form</h3>
             <div className='w-50 mx-auto m-5'>
                 <Form onSubmit={handleForm}>
                     <Form.Group className="mb-3" controlId="formBasicUsername">
-                        <Form.Label>Username</Form.Label>
+                        <Form.Label>Username:</Form.Label>
                         <Form.Control type="text" placeholder="Enter username" name='username' onChange={handleUsername} required autoComplete='off' />
                     </Form.Group>
-
                     <p className='text-danger'>{errormessage}</p>
+
+                    <Form.Group className="mb-3" controlId="formBasicAddress">
+                        <Form.Label>Address (optional):</Form.Label>
+                        <Form.Control type="text" placeholder="Enter address" name='address' autoComplete='off' />
+                    </Form.Group>
 
                     <Button variant="primary" type="submit" disabled={isDisabled}>
                         Add
