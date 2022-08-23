@@ -23,7 +23,7 @@ const UserForm = () => {
         for (const user of users) {
             if (user.username === name) {
                 setIsDisabled(true);
-                setErrormessage('This username has already used');
+                setErrormessage('This username is already taken');
                 return;
             }
             else {
