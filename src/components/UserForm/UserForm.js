@@ -13,7 +13,6 @@ const UserForm = () => {
     // load all users
     useEffect(() => {
         fetch(`https://secure-shore-18409.herokuapp.com/userinfo`, {
-            mode: 'no-cors',
             method: 'GET'
         })
             .then(res => res.json())
